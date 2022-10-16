@@ -1,5 +1,4 @@
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterTest;
@@ -8,69 +7,87 @@ import org.testng.annotations.Test;
 
 public class OpenBrowser {
 
-//    public static void main(String[] args) throws InterruptedException {
-//        String ChromePath = System.getProperty("user.dir") + "\\src\\main\\resources\\chromedriver.exe";
-//        System.setProperty("webdriver.chrome.driver", ChromePath);
-//
-//        WebDriver driver = new ChromeDriver();
-//
-//
-//        // 2-new object of webdriver
-//        driver.navigate().to("https://the-internet.herokuapp.com/login");
-//        driver.manage().window().maximize();
-//        Thread.sleep(3000);
-//
-//        driver.findElement(By.id("username")).clear();
-//      driver.findElement(By.id("username")).sendKeys("tomsmith");
-//      driver.findElement(By.id("password")).sendKeys("SuperSecretPassword!");
-//      driver.findElement(By.id("password")).sendKeys(Keys.ENTER);
-//
-//        driver.close();
-//    }
-//    WebDriver driver = null;
-    WebDriver driver = null ;
+   /* public static void main(String[] args) throws InterruptedException {
+
+      //  System.out.println(System.getProperty("user.dir"));
+        String Chromepath = System.getProperty("user.dir") + "\\MavenSelenium\\src\\test\\resources\\chromedriver.exe";
+        System.setProperty("webdriver.chrome.driver",Chromepath);
+
+        WebDriver driver = new ChromeDriver();
+
+        driver.get("https://the-internet.herokuapp.com/login");
+        driver.manage().window().maximize();
+
+        //driver.findElement(By.name("q")).click();
+
+            driver.findElement(By.id("username")).sendKeys("tomsmith");
+            driver.findElement(By.id("password")).sendKeys("SuperSecretPassword!");
+            driver.findElement(By.className("radius")).click();
+
+       //invalid username and pass
+            driver.findElement(By.id("username")).sendKeys("zzzz");
+            driver.findElement(By.id("password")).sendKeys("gggg");
+            driver.findElement(By.className("radius")).click();
+
+
+
+       // driver.findElement(By.cssSelector("button[type=\"submit\"]")).click();
+
+        //driver.findElement(By.xpath("//button[@type=\"submit\"]")).click();
+
+       // driver.findElement(By.linkText("Elemental Selenium")).click();
+        Thread.sleep(2000);
+        String Successmsg = driver.findElement(By.id("flash")).getText();
+        System.out.println(Successmsg);
+
+        Thread.sleep(3000);
+
+
+        driver.quit();
+
+
+
+    }*/
+
+    WebDriver driver = null;
 
     @BeforeTest
-    public void OpenBrowser() throws InterruptedException {
-        String ChromePath = System.getProperty("user.dir") + "\\src\\main\\resources\\chromedriver.exe";
-        System.setProperty("webdriver.chrome.driver", ChromePath);
+    public void OpenBrowser()
+    {
+      //  System.out.println(System.getProperty("user.dir"));
+
+        String Chromepath = System.getProperty("user.dir") + "\\src\\test\\resources\\chromedriver.exe";
+
+     // System.out.println(Chromepath);
+
+        System.setProperty("webdriver.chrome.driver",Chromepath);
 
         driver = new ChromeDriver();
 
-
-        // 2-new object of webdriver
-        driver.navigate().to("https://the-internet.herokuapp.com/login");
+        driver.get("https://the-internet.herokuapp.com/login");
         driver.manage().window().maximize();
-
-        Thread.sleep(3000);
-
-        System.out.println("open browser succes");
     }
-
     @Test
-    public void ValidData()
-    {
-      driver.findElement(By.id("username")).clear();
-      driver.findElement(By.id("username")).sendKeys("tomsmith");
-      driver.findElement(By.id("password")).sendKeys("SuperSecretPassword!");
-      driver.findElement(By.id("password")).sendKeys(Keys.ENTER);
-     System.out.println("first case run");
-    }
-
-    @Test
-    public void InvalidData()
-    {
+    public void ValidData() {
         driver.findElement(By.id("username")).clear();
-        driver.findElement(By.id("username")).sendKeys("to");
-        driver.findElement(By.id("password")).sendKeys("Super");
-        driver.findElement(By.id("password")).sendKeys(Keys.ENTER);
+        driver.findElement(By.id("username")).sendKeys("tomsmith");
+        driver.findElement(By.id("password")).sendKeys("SuperSecretPassword!");
+        driver.findElement(By.className("radius")).click();
+    }
+    //invalid username and pass
+    @Test
+    public void InvalidData() {
+        driver.findElement(By.id("username")).sendKeys("zzzz");
+        driver.findElement(By.id("password")).sendKeys("gggg");
+        driver.findElement(By.className("radius")).click();
     }
 
-   @AfterTest
-    public void CloseDriver() throws InterruptedException {
-        Thread.sleep(3000);
-        driver.quit();
+    @AfterTest
+    public void CloseBrowser() throws InterruptedException {
 
+        Thread.sleep(3000);
+
+        driver.quit();
 
     }
 }
