@@ -1,6 +1,7 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -52,8 +53,7 @@ public class OpenBrowser {
     WebDriver driver = null;
 
     @BeforeTest
-    public void OpenBrowser()
-    {
+    public void OpenBrowser() throws InterruptedException {
       //  System.out.println(System.getProperty("user.dir"));
 
         String Chromepath = System.getProperty("user.dir") + "\\src\\test\\resources\\chromedriver.exe";
@@ -64,19 +64,30 @@ public class OpenBrowser {
 
         driver = new ChromeDriver();
 
-        driver.get("https://the-internet.herokuapp.com/login");
-        driver.manage().window().maximize();
+//        driver.get("https://the-internet.herokuapp.com/login");
+          driver.manage().window().maximize();
+        Thread.sleep(2000);
+
     }
     @Test
     public void ValidData() {
+        driver.get("https://the-internet.herokuapp.com/login");
         driver.findElement(By.id("username")).clear();
         driver.findElement(By.id("username")).sendKeys("tomsmith");
         driver.findElement(By.id("password")).sendKeys("SuperSecretPassword!");
         driver.findElement(By.className("radius")).click();
+
+        String expectedResult= "You logged into a secure area!";
+        String actualResult =driver.findElement(By.id("flash")).getText();
+
+        Assert.assertEquals(actualResult,expectedResult);
+
     }
     //invalid username and pass
     @Test
     public void InvalidData() {
+        driver.get("https://the-internet.herokuapp.com/login");
+        driver.findElement(By.id("username")).clear();
         driver.findElement(By.id("username")).sendKeys("zzzz");
         driver.findElement(By.id("password")).sendKeys("gggg");
         driver.findElement(By.className("radius")).click();
