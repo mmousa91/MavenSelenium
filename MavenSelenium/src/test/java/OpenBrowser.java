@@ -70,18 +70,29 @@ public class OpenBrowser {
 
     }
     @Test
-    public void ValidData() {
+    public void ValidData() throws InterruptedException {
         driver.get("https://the-internet.herokuapp.com/login");
         driver.findElement(By.id("username")).clear();
         driver.findElement(By.id("username")).sendKeys("tomsmith");
         driver.findElement(By.id("password")).sendKeys("SuperSecretPassword!");
         driver.findElement(By.className("radius")).click();
 
+        Thread.sleep(2000);
+
         String expectedResult= "You logged into a secure area!";
         String actualResult =driver.findElement(By.id("flash")).getText();
 
-        Assert.assertEquals(actualResult,expectedResult);
+      //  Assert.assertEquals(actualResult.contains(expectedResult),true);
+        Assert.assertTrue(actualResult.contains(expectedResult),"error plz. try again");
 
+         //second assert
+        Assert.assertTrue(driver.findElement(By.cssSelector("a[href=\"/logout\"]")).isDisplayed());
+
+        // third assert
+//        String expectedResult2="http://the-internet.herokuapp.com/secure";
+//        String actualResult2= driver.getCurrentUrl();
+//        Assert.assertTrue(actualResult2.contains(expectedResult2),"some wrong");
+        Assert.assertEquals(driver.getCurrentUrl(),"https://the-internet.herokuapp.com/secure");
     }
     //invalid username and pass
     @Test
@@ -91,6 +102,11 @@ public class OpenBrowser {
         driver.findElement(By.id("username")).sendKeys("zzzz");
         driver.findElement(By.id("password")).sendKeys("gggg");
         driver.findElement(By.className("radius")).click();
+
+        String expectedResult = "Your username is invalid!";
+        String actualResult = driver.findElement(By.id("flash")).getText();
+
+        Assert.assertTrue(actualResult.contains(expectedResult));
     }
 
     @AfterTest
