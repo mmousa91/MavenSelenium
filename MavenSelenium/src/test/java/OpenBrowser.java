@@ -1,5 +1,6 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
@@ -51,6 +52,14 @@ public class OpenBrowser {
     }*/
 
     WebDriver driver = null;
+    LoginPage Login ;
+
+//    public WebElement usernameEle(){
+//        By username = By.id("username");
+//        WebElement usernameEle = driver.findElement(username);
+//        return usernameEle;
+//
+//    }
 
     @BeforeTest
     public void OpenBrowser() throws InterruptedException {
@@ -68,13 +77,24 @@ public class OpenBrowser {
           driver.manage().window().maximize();
         Thread.sleep(2000);
 
+         Login = new LoginPage();
+
     }
+
+
     @Test
     public void ValidData() throws InterruptedException {
         driver.get("https://the-internet.herokuapp.com/login");
-        driver.findElement(By.id("username")).clear();
-        driver.findElement(By.id("username")).sendKeys("tomsmith");
-        driver.findElement(By.id("password")).sendKeys("SuperSecretPassword!");
+        //driver.findElement(By.id("username")).clear();
+       // usernameEle().clear();
+
+        Login.usernamePom(driver).clear();
+
+       // driver.findElement(By.id("username")).sendKeys("tomsmith");
+        Login.usernamePom(driver).sendKeys("tomsmith");
+
+        //driver.findElement(By.id("password")).sendKeys("SuperSecretPassword!");
+        Login.PasswordPom(driver).sendKeys("SuperSecretPassword!");
         driver.findElement(By.className("radius")).click();
 
         Thread.sleep(2000);
