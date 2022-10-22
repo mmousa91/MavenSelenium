@@ -17,4 +17,24 @@ public class LoginPage {
 
         return  driver.findElement(By.id("password"));
     }
+
+    public By FlashPom(){
+
+        return  By.id("flash");
+    }
+
+    public By LogoutPom(){
+
+        return By.cssSelector("a[href=\"/logout\"]");
+    }
+
+    public void LoginSteps(WebDriver driver,String usename ,String password){
+        usernamePom(driver).clear();
+        usernamePom(driver).sendKeys(usename);
+
+        PasswordPom(driver).sendKeys(password);
+        findElement(By.className("radius")).click();
+
+
+    }
 }

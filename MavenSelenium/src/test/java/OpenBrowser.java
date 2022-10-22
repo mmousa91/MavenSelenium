@@ -80,7 +80,15 @@ public class OpenBrowser {
          Login = new LoginPage();
 
     }
+ public void LoginSteps(String usename ,String password){
+     Login.usernamePom(driver).clear();
+     Login.usernamePom(driver).sendKeys(usename);
 
+     Login.PasswordPom(driver).sendKeys(password);
+     driver.findElement(By.className("radius")).click();
+
+
+ }
 
     @Test
     public void ValidData() throws InterruptedException {
@@ -88,25 +96,31 @@ public class OpenBrowser {
         //driver.findElement(By.id("username")).clear();
        // usernameEle().clear();
 
-        Login.usernamePom(driver).clear();
+      //  Login.usernamePom(driver).clear();
 
        // driver.findElement(By.id("username")).sendKeys("tomsmith");
-        Login.usernamePom(driver).sendKeys("tomsmith");
+       // Login.usernamePom(driver).sendKeys("tomsmith");
 
         //driver.findElement(By.id("password")).sendKeys("SuperSecretPassword!");
-        Login.PasswordPom(driver).sendKeys("SuperSecretPassword!");
-        driver.findElement(By.className("radius")).click();
+     //   Login.PasswordPom(driver).sendKeys("SuperSecretPassword!");
+       // driver.findElement(By.className("radius")).click();
+
+        LoginSteps("tomsmith","SuperSecretPassword!");
 
         Thread.sleep(2000);
 
         String expectedResult= "You logged into a secure area!";
-        String actualResult =driver.findElement(By.id("flash")).getText();
+        //String actualResult =driver.findElement(By.id("flash")).getText();
+        String actualResult =driver.findElement(Login.FlashPom()).getText();
 
-      //  Assert.assertEquals(actualResult.contains(expectedResult),true);
+
+        //  Assert.assertEquals(actualResult.contains(expectedResult),true);
         Assert.assertTrue(actualResult.contains(expectedResult),"error plz. try again");
 
          //second assert
-        Assert.assertTrue(driver.findElement(By.cssSelector("a[href=\"/logout\"]")).isDisplayed());
+      //  Assert.assertTrue(driver.findElement(By.cssSelector("a[href=\"/logout\"]")).isDisplayed());
+        Assert.assertTrue(driver.findElement(Login.LogoutPom()).isDisplayed());
+
 
         // third assert
 //        String expectedResult2="http://the-internet.herokuapp.com/secure";
@@ -118,8 +132,12 @@ public class OpenBrowser {
     @Test
     public void InvalidData() {
         driver.get("https://the-internet.herokuapp.com/login");
-        driver.findElement(By.id("username")).clear();
-        driver.findElement(By.id("username")).sendKeys("zzzz");
+      //  driver.findElement(By.id("username")).clear();
+        Login.usernamePom(driver).clear();
+
+     //   driver.findElement(By.id("username")).sendKeys("zzzz");
+        Login.usernamePom(driver).sendKeys("zzzz");
+
         driver.findElement(By.id("password")).sendKeys("gggg");
         driver.findElement(By.className("radius")).click();
 
