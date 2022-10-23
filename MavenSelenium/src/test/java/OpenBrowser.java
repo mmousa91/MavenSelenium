@@ -1,4 +1,7 @@
+import javafx.scene.layout.Priority;
+import net.bytebuddy.build.Plugin;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -77,20 +80,12 @@ public class OpenBrowser {
           driver.manage().window().maximize();
         Thread.sleep(2000);
 
-         Login = new LoginPage();
+         Login = new LoginPage(driver);
 
     }
- public void LoginSteps(String usename ,String password){
-     Login.usernamePom(driver).clear();
-     Login.usernamePom(driver).sendKeys(usename);
-
-     Login.PasswordPom(driver).sendKeys(password);
-     driver.findElement(By.className("radius")).click();
 
 
- }
-
-    @Test
+    @Test(priority=1)
     public void ValidData() throws InterruptedException {
         driver.get("https://the-internet.herokuapp.com/login");
         //driver.findElement(By.id("username")).clear();
@@ -105,7 +100,7 @@ public class OpenBrowser {
      //   Login.PasswordPom(driver).sendKeys("SuperSecretPassword!");
        // driver.findElement(By.className("radius")).click();
 
-        LoginSteps("tomsmith","SuperSecretPassword!");
+       Login.LoginSteps("tomsmith","SuperSecretPassword!");
 
         Thread.sleep(2000);
 
@@ -129,17 +124,19 @@ public class OpenBrowser {
         Assert.assertEquals(driver.getCurrentUrl(),"https://the-internet.herokuapp.com/secure");
     }
     //invalid username and pass
-    @Test
+    @Test(priority = 2)
     public void InvalidData() {
         driver.get("https://the-internet.herokuapp.com/login");
       //  driver.findElement(By.id("username")).clear();
-        Login.usernamePom(driver).clear();
+     //   Login.usernamePom(driver).clear();
 
      //   driver.findElement(By.id("username")).sendKeys("zzzz");
-        Login.usernamePom(driver).sendKeys("zzzz");
+     //   Login.usernamePom(driver).sendKeys("zzzz");
 
-        driver.findElement(By.id("password")).sendKeys("gggg");
-        driver.findElement(By.className("radius")).click();
+       // driver.findElement(By.id("password")).sendKeys("gggg");
+       // driver.findElement(By.className("radius")).click();
+
+        Login.LoginSteps("zzz","ppp");
 
         String expectedResult = "Your username is invalid!";
         String actualResult = driver.findElement(By.id("flash")).getText();
